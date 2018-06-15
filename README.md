@@ -1,8 +1,5 @@
-# silicon_valley_quote_gen
+# Silicon Valley Random Quote Generator
 
-A new Flutter project.
+Made while attempting to learn flutter. Doesn't really do anything impressive, just finds a random quote from a specific set of quotes that I have stored on my server and displays it. 
 
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+Uses package/http.dart to fetch and dart:convert to work with json.
