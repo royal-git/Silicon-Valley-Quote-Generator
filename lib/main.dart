@@ -12,9 +12,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   Quote _currentQuote = new Quote("", "");
-  
+
   _generateQuote() {
     http.get('http://toybox.royalthomas.me/SiliconValley/').then((response) {
       var finalResponse = json.decode(response.body);
@@ -24,7 +23,6 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
-
 
   @override
   void initState() {
@@ -42,12 +40,22 @@ class _MyAppState extends State<MyApp> {
           onPressed: () => _generateQuote(),
         ),
         appBar: new AppBar(
+          backgroundColor: Colors.green,
           title: new Text('Silicon Valley Quote Generator'),
         ),
-        body: new Center(
-          child: new ListTile(
-            title: new Text(_currentQuote.getQuote()),
-            subtitle: new Text(_currentQuote.getAuthor()),
+        body: Center(
+          child: new Card(
+            margin: new EdgeInsets.all(6.0),
+            elevation: 1.0,
+            
+            child: new Container(
+              padding: new EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: new ListTile(
+              
+              title: new Text(_currentQuote.getQuote()),
+              subtitle: new Text(_currentQuote.getAuthor()),
+            ),
+            )
           ),
         ),
       ),
@@ -55,17 +63,16 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-
-
 class Quote {
   String _quote, _author;
 
   String getQuote() {
     return _quote;
   }
+
   String getAuthor() {
     return _author;
   }
 
   Quote(this._quote, this._author);
-  }
+}
