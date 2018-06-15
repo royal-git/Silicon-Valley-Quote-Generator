@@ -39,3 +39,18 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
+
+class Quote {
+  String _quote, _author;
+
+  String getQuote() {
+    return _quote;
+  }
+  String getAuthor() {
+    return _author;
+  }
+
+  Quote(this._quote, this._author);
+  }
