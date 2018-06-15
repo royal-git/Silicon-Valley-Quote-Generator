@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,8 +14,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   Quote _currentQuote = new Quote("", "");
-
-  Future<http.Response> _generateQuote() {
+  
+  _generateQuote() {
     http.get('http://toybox.royalthomas.me/SiliconValley/').then((response) {
       var finalResponse = json.decode(response.body);
       setState(() {
@@ -31,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _generateQuote();
   }
 
   @override
