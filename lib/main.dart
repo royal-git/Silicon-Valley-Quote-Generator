@@ -13,6 +13,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  Quote _currentQuote = new Quote("", "");
+
+  Future<http.Response> _generateQuote() {
+    http.get('http://toybox.royalthomas.me/SiliconValley/').then((response) {
+      var finalResponse = json.decode(response.body);
+      setState(() {
+        _currentQuote =
+            new Quote(finalResponse['quote'], finalResponse['name']);
+      });
+    });
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,14 +39,15 @@ class _MyAppState extends State<MyApp> {
       home: new Scaffold(
         floatingActionButton: new FloatingActionButton(
           child: new Icon(Icons.refresh),
+          onPressed: () => _generateQuote(),
         ),
         appBar: new AppBar(
           title: new Text('Silicon Valley Quote Generator'),
         ),
         body: new Center(
           child: new ListTile(
-            title: new Text("Hello"),
-            subtitle: new Text("World"),
+            title: new Text(_currentQuote.getQuote()),
+            subtitle: new Text(_currentQuote.getAuthor()),
           ),
         ),
       ),
