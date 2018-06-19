@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 
 main(List<String> args) {
@@ -14,13 +15,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Quote _currentQuote = new Quote("", "");
 
-  _generateQuote() {
-    http.get('http://toybox.royalthomas.me/SiliconValley/').then((response) {
-      var finalResponse = json.decode(response.body);
-      setState(() {
-        _currentQuote =
-            new Quote(finalResponse['quote'], finalResponse['name']);
-      });
+  Future<Null> _generateQuote() async {
+    var response =
+        await http.get('http://toybox.royalthomas.me/SiliconValley/');
+    var finalResponse = json.decode(response.body);
+    setState(() {
+      _currentQuote = new Quote(finalResponse['quote'], finalResponse['name']);
     });
   }
 
@@ -43,19 +43,24 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.green,
           title: new Text('Silicon Valley Quote Generator'),
         ),
-        body: Center(
-          child: new Card(
-            margin: new EdgeInsets.all(6.0),
-            elevation: 1.0,
-            
-            child: new Container(
-              padding: new EdgeInsets.only(top: 20.0, bottom: 20.0),
-              child: new ListTile(
-              
-              title: new Text(_currentQuote.getQuote()),
-              subtitle: new Text(_currentQuote.getAuthor()),
+        body: new Container(
+          padding: new EdgeInsets.all(50.0),
+                  child: new RefreshIndicator(
+            onRefresh: () => _generateQuote(),
+            child: new ListView(
+              children: <Widget>[
+                new Card(
+                    margin: new EdgeInsets.all(6.0),
+                    elevation: 1.0,
+                    child: new Container(
+                      padding: new EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      child: new ListTile(
+                        title: new Text(_currentQuote.getQuote()),
+                        subtitle: new Text(_currentQuote.getAuthor()),
+                      ),
+                    )),
+              ],
             ),
-            )
           ),
         ),
       ),
